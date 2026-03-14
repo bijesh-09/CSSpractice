@@ -1,0 +1,349 @@
+:root {
+    --white: #f9faff;
+    --platinum: #e3e4e8;
+    --windsurfing: #32779b;
+    --marina: #5a91c7;
+    --gray: #9a9a9a;
+    --onyx: #3c3d44;
+    --charcoal: #343c47;
+    --corners: 24px 0;
+    --corners-sm: 10px 0;
+    --base-font-size: 1rem;
+    --ld-background: light-dark(var(--platinum), var(--charcoal));
+    /*ld-background variable for lightdarkbackground, "the light-dark()" exists in css */
+    --ld-text: light-dark(var(--onyx), var(--white));
+    /*dark color for light theme and videversa*/
+    --ld-project: light-dark(var(--white), #2e313d);
+    --ld-blue: light-dark(var(--windsurfing), #6DaDD0);
+}
+
+html {
+    box-sizing: border-box;
+    color-scheme: light dark;
+    /*color-scheme is just metadata that tells the browserthat this website supports both light and dark mode*/
+    /*the browser will show the page background based on the system or browser theme settings*/
+}
+
+html:has(#mode-switcher #light:checked) {
+    /*:has() is a css selector that selects an element if it contains a child element that matches the specified selector, here we are checking if the light mode button is active or not by seeing the #light id radio button is checked or not*/
+    color-scheme: light;
+    /*if light mode button is active, then show light mode background, if not the default browser theme is used*/
+}
+
+/*the :has for #dark:checked is also important, cuz if it wasnt here, and the user default browser or sytem theme is light, then even thoguh dark is clicked, page will be in light mode*/
+html:has(#mode-switcher #dark:checked) {
+    color-scheme: dark;
+}
+
+*,
+*::before,
+*::after {
+    box-sizing: inherit;
+}
+
+body {
+    font-size: var(--base-font-size);
+    font-family: "Inter", sans-serif;
+
+    /*these two:
+     background-color: var(--platinum);
+     color: var(--onyx);
+    will override the color-scheme, so instead do this:*/
+    background-color: var(--ld-background);
+    color: var(--ld-text);
+
+}
+
+.wrapper {
+    max-width: 1200px;
+    margin: 0 auto;
+    /*auto means take the remaining gap and divide it equally*/
+    padding: 1rem;
+}
+
+h1 {
+    /*note, margin of neighbouring element collapses or overlaps*/
+    margin: 0;
+    font-size: calc(var(--base-font-size) * 2.9);
+}
+
+h2 {
+    margin: 0;
+    font-size: calc(var(--base-font-size));
+    text-transform: uppercase;
+    color: var(--ld-blue);
+    letter-spacing: 0.25em;
+    /*current fontsize's quater part of letter spacing*/
+}
+
+h3 {
+    margin: 0;
+}
+
+p {
+    /* its always relative , no unit for line height */
+    line-height: 1.5;
+}
+
+a {
+    color: var(--ld-blue);
+}
+
+/* pseudo class ":" represents a special state of an element
+while psudo element "::" represents a part of an element 
+eg :hover, :active, :focus, ::before, ::after, ::first-letter, etc*/
+a:hover {
+    color: var(--marina);
+}
+
+img {
+    max-width: 100%;
+    /*making 100% makes image widht adjusted as the screen resoultion changes*/
+    border-radius: var(--corners);
+    /*this also works in topleft, top right, bottom right , bottom left clockwise manner*/
+}
+
+/*svg social icon bar*/
+
+.icons {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    /*making icons into horizontal*/
+    flex-flow: row wrap;
+    /*row is to arrange items lefttoright horizontally, wrap means if space not available send them to next line instead of squashing*/
+    gap: 2rem;
+    justify-content: center;
+}
+
+ul svg {
+    height: 36px;
+    width: 36px;
+}
+
+.social {
+    /* note this "fill" is not a css property rather a svg property  */
+    fill: var(--ld-blue);
+}
+
+.social:hover {
+    fill: var(--marina);
+}
+
+/* about me layout styling */
+.main-article {
+    display: grid;
+    grid-template-columns: 1fr;
+    /*1fractional unit of the whole .main-article*/
+    gap: 2rem;
+    /*gap betwn .main-article's elements i.e. content-text div and the img tag*/
+    text-align: center;
+    /*only text part will be centered, while svgs and img wont be centered*/
+}
+
+.main-article img {
+    margin: 0 auto;
+    object-fit: cover;
+    /*cover means image will be scaled to cover the entire container;img tag is the container for now, while maintaining the original aspect ratio, If the image's proportions don't match the container's proportions, parts of the image get cut off. */
+    object-position: top;
+    /*here the top remains visible while bottom is cropped out, object position is used to specify the position of the image within its container when using object-fit*/
+    height: 175px;
+    width: 300px;
+    overflow: hidden;
+    /*using it though, object fit has overflow hidden implicitly*/
+}
+
+/* Projects section */
+main {
+    margin-top: 5rem;
+    margin-bottom: 3rem;
+    text-align: center;
+}
+
+.project {
+    background-color: var(--ld-project);
+    border-radius: var(--corners);
+    padding: 3rem;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 3rem;
+}
+
+.projects {
+    display: flex;
+    flex-flow: column nowrap;
+    gap: 3rem;
+}
+
+/* flex-direction — Sets ONLY the direction:
+
+row (left-to-right)
+column (top-to-bottom)
+row-reverse, column-reverse
+flex-flow — Shorthand that sets both direction AND wrapping:
+
+flex-flow: column nowrap; 
+equals:
+flex-direction: column;
+flex-wrap: nowrap;
+ */
+
+.project ul {
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: center;
+    gap: 1rem;
+    color: var(--white);
+    font-size: calc(var(--base-font-size) * 0.85);
+}
+
+.project li {
+    background-color: var(--marina);
+    padding: 0.5rem;
+    border-radius: var(--corners-sm);
+}
+
+.project img {
+    grid-row: 1/2;
+    /*grid-row or grid-column only works in grid-times(children), not on the container */
+}
+
+/*         Column 1
+Line 1 ┌─────────┐
+  ↑    │ Row 1   │ ← grid-row: 1/2 places item HERE
+  │    ├─────────┤
+Line 2 │ Row 2   │
+       └─────────┘
+
+1/2 means:
+Start at row line 1 (top)
+End at row line 2 (the line after)
+= occupies the space between lines 1 and 2 = Row 1
+
+Image is explicitly placed at occupied row(row 1 for now) via grid-row: 1/2
+Text has no placement rule, so it auto-places to the next available row = row 2
+Result: Image visually appears FIRST despite being second in HTML
+*/
+.img-border {
+    border: 1px solid var(--marina);
+    box-shadow: 0 0 10px var(--marina);
+}
+
+/* footer styling */
+footer {
+    text-align: center;
+}
+
+.footer-text {
+    line-height: 1.5;
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2rem;
+}
+
+.footer-text-box ul {
+    font-size: calc(var(--base-font-size) * 0.85);
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+.h2-footer {
+    margin: 2rem 0;
+}
+
+.footer-text-box li {
+    line-height: 2;
+}
+
+footer .icons .social {
+    fill: var(--ld-text);
+}
+
+footer .icons .social:hover {
+    fill: var(--marina);
+}
+
+/*light dark btn but using css only*/
+fieldset {
+    display: flex;
+    flex-flow: row wrap;
+    gap: 3rem;
+    justify-content: center;
+    max-width: 300px;
+    margin: 0 0 5rem auto;
+}
+
+@media (min-width: 750px) {
+    :root {
+        /*this will proprotionally change the fontsize in desktop mode*/
+        --base-font-size: 1.125rem;
+    }
+
+    h1 {
+        margin-left: -3px;
+        /*pulling h1 slightly to the left cuz the h2 and h1 were slightly off*/
+    }
+
+    .wrapper {
+        padding: 5rem;
+    }
+
+    .main-article {
+        grid-template-columns: 1fr 1fr;
+        /*two equal columns for text and image*/
+        text-align: left;
+        /*text will be left aligned in desktop view*/
+    }
+
+    .main-article img {
+        max-height: 400px;
+        /*wont grow large than this height when the resoultion increases*/
+        margin: 0 0 0 auto;
+        object-fit: none;
+        object-position: none;
+        height: auto;
+        width: auto;
+        overflow: auto;
+    }
+
+    .icons {
+        justify-content: flex-start;
+        /*aligning icons to left in desktop view*/
+    }
+
+    footer {
+        text-align: left;
+    }
+
+    .footer-text {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media (min-width: 850px) {
+
+    /*making sure that the main divs get into 2 columns after 850px breakpoint reached*/
+    main {
+        text-align: left;
+    }
+
+    .project {
+        grid-template-columns: 1fr 1fr;
+    }
+
+    .project img {
+        grid-row: auto;
+        /*auto resets the grid row placement, browser's default placement algo will work*/
+    }
+
+    .project ul {
+        justify-content: flex-start;
+        /*pushing tags to the left side*/
+    }
+
+}
